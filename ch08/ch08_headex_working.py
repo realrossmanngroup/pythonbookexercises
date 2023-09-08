@@ -33,27 +33,33 @@ screenwidth = app.winfo_screenwidth()
 screenheight = app.winfo_screenheight()
 
 #Create variable that will determine how much the program is scaled, according to screen resolution
-screenwidthforscaling = int(screenwidth/700)
+screenwidthforscaling = screenwidth/1000
 
 #Set size of window based on screen resolution
-programwidth = int(0.5 * int(screenwidth))
-programheight = int(0.5 * int(screenheight))
+programwidth = int(0.32 * int(screenwidth))
+programheight = int(0.45 * int(screenheight))
 
 #Scale the window
 app.tk.call('tk', 'scaling', screenwidthforscaling)
 app.geometry(f"{programwidth}x{programheight}")
 #####DONE WITH SCALING CODE
 
-#define the fields we will use
-b1 = Button(app, text = "Add", width = 10, command = append_record).pack(side = 'top')
-b2 = Button(app, text = "Clear", width=10, command = clear_fields).pack(side = 'right')
-depotlabel = Label(app, text = "Depot: ").pack(side = 'top')
-depot = Entry(app).pack()
-item_desc_label = Label(app, text = "Item description: ").pack()
-item_desc = Entry(app).pack()
-addresslabel = Label(app, text = "Destination address :").pack()
-address = Text(app).pack()
+#define the fields we will use, begin loop
+b1 = Button(app, text = "Add", width = 10, command = append_record)
+b1.pack(side = 'bottom')
+b2 = Button(app, text = "Clear", width=10, command = clear_fields)
+b2.pack(side = 'bottom')
+depotlabel = Label(app, text = "Depot: ")
+depotlabel.pack(side = 'top')
+depot = Entry(app)
+depot.pack()
+item_desc_label = Label(app, text = "Item description: ")
+item_desc_label.pack()
+item_desc = Entry(app)
+item_desc.pack()
+addresslabel = Label(app, text = "Destination address :")
+addresslabel.pack()
+address = Text(app)
+address.pack()
 
 app.mainloop()
-
-

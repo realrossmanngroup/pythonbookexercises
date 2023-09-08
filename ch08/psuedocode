@@ -1,0 +1,20 @@
+SAVE TO FILE BUTTON
+
+item_desc.get()
+
+
+
+click save, append deliveries.txt
+
+
+
+def append_depot()
+	global depot_fieldretrieve
+	global address_fieldretrieve
+	global item_desc_fieldretrieve
+	depot_fieldretrieve = depot.get()
+	item_desc_fieldretrieve = item_desc.get()
+	address_fieldretrieve = address.get()
+	file.write("Depot:\n %s " % (depot_fieldretrieve))
+	file.write("Item Description:\n %s" (item_desc_fieldretrieve))
+	file.write("Address:\n %s" % (address_fieldretrieve))
