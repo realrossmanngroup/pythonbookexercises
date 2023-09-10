@@ -10,19 +10,21 @@ global item_desc_fieldretrieve
 def append_record():
     #Open file we will be saving info to
     file = open("deliveries.txt", "a")
-    depot_fieldretrieve = depot.get()
+    depot_fieldretrieve = depotlocation.get()
     item_desc_fieldretrieve = item_desc.get()
     address_fieldretrieve = address.get("1.0",END)
     file.write("Depot:\n%s\n" % (depot_fieldretrieve))
     file.write("Item Description:\n%s\n" % (item_desc_fieldretrieve))
     file.write("Address:\n%s\n" % (address_fieldretrieve))
+    depotlocation.set(None)
 
 #define function for clearing fields when done
 def clear_fields():
-    depot.delete(0, END)
+    depotlocation.set(None)
     item_desc.delete(0, END)
     address.delete("1.0", END)
-    
+    depotlocation.set(None)
+
 #Set up the GUI
 app = Tk()
 app.title("HeadEx shipment manifest")

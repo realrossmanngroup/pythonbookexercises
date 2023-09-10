@@ -45,9 +45,14 @@ app.geometry(f"{programwidth}x{programheight}")
 #####DONE WITH SCALING CODE
 
 #define the fields we will use
-b1 = Button(app, text = "Add", width = 10, command = append_record).pack(side = 'top')
-b2 = Button(app, text = "Clear", width=10, command = clear_fields).pack(side = 'right')
+####
+####
+####
+#### WHY DOES THIS NOT WORK WHEN I USE .pack(side = 'bottom') AT THE END OF THE LINE? WHY DOES IT ONLY WORK IF I DO b2.pack(side = 'bottom')  ON A NEW LINE?
+b1 = Button(app, text = "Add", width = 10, command = append_record).pack(side = 'bottom')
+b2 = Button(app, text = "Clear", width=10, command = clear_fields).pack(side = 'bottom')
 depotlabel = Label(app, text = "Depot: ").pack(side = 'top')
+#### WHY DOES THIS NOT WORK WHEN I USE .pack() AT THE END OF THE LABEL? WHY DOES IT ONLY WORK WHEN I TYPE depot.pack() ON A NEW LINE?
 depot = Entry(app).pack()
 item_desc_label = Label(app, text = "Item description: ").pack()
 item_desc = Entry(app).pack()

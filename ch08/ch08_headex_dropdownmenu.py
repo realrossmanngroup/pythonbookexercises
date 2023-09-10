@@ -5,24 +5,34 @@ from tkinter import *
 global depot_fieldretrieve
 global address_fieldretrieve
 global item_desc_fieldretrieve
+depots = [""]
 
 #define function for taking user input, storing it as a variable, then appending it to a file
 def append_record():
-    #Open file we will be saving info to
     file = open("deliveries.txt", "a")
-    depot_fieldretrieve = depot.get()
+    depot_fieldretrieve = depotlocation.get()
     item_desc_fieldretrieve = item_desc.get()
     address_fieldretrieve = address.get("1.0",END)
     file.write("Depot:\n%s\n" % (depot_fieldretrieve))
     file.write("Item Description:\n%s\n" % (item_desc_fieldretrieve))
     file.write("Address:\n%s\n" % (address_fieldretrieve))
+    depotlocation.set(None)
 
+#define function for getting depots from text file
+def read_depots(file):
+    depotlist = open(file)
+    depots.clear()
+    for line in depotlist:
+        depots.append(line)
+        
 #define function for clearing fields when done
 def clear_fields():
-    depot.delete(0, END)
+    depots.clear()
+    depotlocation.set(None)
     item_desc.delete(0, END)
     address.delete("1.0", END)
-    
+    depotlocation.set(None)
+
 #Set up the GUI
 app = Tk()
 app.title("HeadEx shipment manifest")
@@ -49,12 +59,15 @@ b1 = Button(app, text = "Add", width = 10, command = append_record)
 b1.pack(side = 'bottom')
 b2 = Button(app, text = "Clear", width=10, command = clear_fields)
 b2.pack(side = 'bottom')
-depotlabel = Label(app, text = "Depot: ")
+b3 = Button(app, text = "Get depots", width=10, command = read_depots("depots.txt"))
+b3.pack(side = 'bottom')
+depotlabel = Label(app, text = "Depot:")
 depotlabel.pack(side = 'top')
-depot = Entry(app)
-depot.pack()
+depotlocation = StringVar()
+depotlocation.set(None)
+OptionMenu(app, depotlocation, *depots).pack()
 item_desc_label = Label(app, text = "Item description: ")
-item_desc_label.pack()
+item_desc_label.pack(side = 'top')
 item_desc = Entry(app)
 item_desc.pack()
 addresslabel = Label(app, text = "Destination address :")
