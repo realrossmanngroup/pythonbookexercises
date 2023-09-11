@@ -1,11 +1,11 @@
 #import GUI
 from tkinter import *
+import tkinter.filedialog as filedialog
 
 #define variables we will use for functions
 global depot_fieldretrieve
 global address_fieldretrieve
 global item_desc_fieldretrieve
-depots = [""]
 
 #define function for taking user input, storing it as a variable, then appending it to a file
 def append_record():
@@ -18,20 +18,26 @@ def append_record():
     file.write("Address:\n%s\n" % (address_fieldretrieve))
     depotlocation.set(None)
 
-#define function for getting depots from text file
-def read_depots(file):
-    depotlist = open(file)
+#define function for getting depots from text file and adding it to our menu
+def read_depots():
+    depots = []
     depots.clear()
+    somefile = filedialog.askopenfilename()
+    depotlist = open(somefile)
     for line in depotlist:
-        depots.append(line)
-        
+        om1['menu'].add_command(label=line.rstrip())
+
 #define function for clearing fields when done
 def clear_fields():
-    depots.clear()
+    #clear the variable containing list of depots
+    om1['menu'].delete(0, END)
+    #clear the dropdown menu list of depots
+    depotlocation.set("")
+    #deselect depots
     depotlocation.set(None)
+    #delete text in fields
     item_desc.delete(0, END)
     address.delete("1.0", END)
-    depotlocation.set(None)
 
 #Set up the GUI
 app = Tk()
@@ -59,13 +65,14 @@ b1 = Button(app, text = "Add", width = 10, command = append_record)
 b1.pack(side = 'bottom')
 b2 = Button(app, text = "Clear", width=10, command = clear_fields)
 b2.pack(side = 'bottom')
-b3 = Button(app, text = "Get depots", width=10, command = read_depots("depots.txt"))
+b3 = Button(app, text = "Read depots", width=10, command = read_depots)
 b3.pack(side = 'bottom')
 depotlabel = Label(app, text = "Depot:")
 depotlabel.pack(side = 'top')
 depotlocation = StringVar()
 depotlocation.set(None)
-OptionMenu(app, depotlocation, *depots).pack()
+om1 = OptionMenu(app, depotlocation, "")
+om1.pack(side = 'top')
 item_desc_label = Label(app, text = "Item description: ")
 item_desc_label.pack(side = 'top')
 item_desc = Entry(app)
