@@ -38,13 +38,13 @@ app.title("Head First Mix")
 screenwidth = app.winfo_screenwidth()
 screenheight = app.winfo_screenheight()
 #Create variable that will determine how much the program is scaled, according to screen resolution
-screenwidthforscaling = screenwidth/1000
+screenwidthforscaling = screenwidth/1400
 #Set size of window based on screen resolution
 programwidth = int(0.32 * int(screenwidth))
 programheight = int(0.45 * int(screenheight))
 #Scale the window
 app.tk.call('tk', 'scaling', screenwidthforscaling)
-app.geometry(f"{programwidth}x{programheight}")
+#app.geometry(f"{programwidth}x{programheight}")
 #####DONE WITH SCALING CODE
 
 #Specify volume variable
