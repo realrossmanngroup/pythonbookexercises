@@ -39,3 +39,12 @@ Random address
 in cambridge, MA
 test
 
+Depot:
+New York, NY
+Item Description:
+An adorable cat 
+Address:
+186 1st ave
+New York, NY, 10009
+United States
+

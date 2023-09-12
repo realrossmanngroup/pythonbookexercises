@@ -2,23 +2,22 @@
 from tkinter import *
 import tkinter.filedialog as filedialog
 import tkinter as tk
+import tkinter.messagebox
 
 #define variables we will use for functions
-#global depot_fieldretrieve
-#global address_fieldretrieve
-#global item_desc_fieldretrieve
 
 #define function for taking user input, storing it as a variable, then appending it to a file
 def append_record():
-    file = open("deliveries.txt", "a")
-#    depot_fieldretrieve = depotlocation.get()
-#    item_desc_fieldretrieve = item_desc.get()
-#    address_fieldretrieve = address.get("1.0",END)
-    file.write("Depot:\n%s\n" % (depotlocation.get()))
-    file.write("Item Description:\n%s\n" % (item_desc.get()))
-    file.write("Address:\n%s\n" % (address.get("1.0",END)))
-    depotlocation.set(None)
-
+    try:
+        file = open("deliveries.txt", "a")
+        file.write("Depot:\n%s\n" % (depotlocation.get()))
+        file.write("Item Description:\n%s\n" % (item_desc.get()))
+        file.write("Address:\n%s\n" % (address.get("1.0",END)))
+        depotlocation.set(None)
+    except Exception as ex:
+        #app.title("Can't write to the file %s" % ex)
+        tkinter.messagebox.showerror("Error!", "Can't write to the file \n %s" % ex)
+        
 #define function for getting depots from text file and adding it to our menu
 def read_depots():
     somefile = filedialog.askopenfilename()
