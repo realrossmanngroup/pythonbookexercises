@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter.messagebox import askokcancel
 import pygame.mixer
 import tkinter as tk
+import tkinter.filedialog as filedialog
 
 #Import & initialize mixer
 mixer = pygame.mixer
@@ -11,21 +12,27 @@ mixer.init()
 #Specify sound file
 sound_file = "50459_M_RED_Nephlimizer.wav"
 track = mixer.Sound(sound_file)
+whattoplay = track
 
+def set_sound_file():
+    newfile = filedialog.askopenfilename()
+    track2 = mixer.Sound(newfile)
+    whattoplay = track2
+    
 #Function for adjusting volume
 def change_volume(v):
-    track.set_volume(volume.get())
+    whattoplay.set_volume(volume.get())
     
 #Play sound if checkbox linked to track_playing intvar is clicked
 def track_toggle():
     if track_playing.get() == 1:
-        track.play(loops = -1)
+        whattoplay.play(loops = -1)
     else:
-        track.stop()
+        whattoplay.stop()
         
 #Stop playing music when the window is exited
 def shutdown():
-   track.stop()
+   whattoplay.stop()
    if askokcancel(title = 'Are you sure?', message = 'Do you really want to quit?'):
        app.destroy()
 
@@ -55,10 +62,13 @@ volume_scale.pack(side = BOTTOM)
 
 #Make checkbox for playing music
 track_playing = IntVar()
-Checkbutton(app, variable = track_playing, command = track_toggle, text = "50459_M_RED_Nephlimizer.wav").pack()
+Checkbutton(app, variable = track_playing, command = track_toggle, text = sound_file).pack()
+
+#Choose a music file
+#the book forces you to start the program with one very crappy song. What if you wanted to change it? This should be supported! 
+b1 = Button(app, text = "Choose track!", width=10, command = set_sound_file).pack(side = BOTTOM)
 
 #Change 
 app.protocol("WM_DELETE_WINDOW", shutdown)
-
 
 app.mainloop()

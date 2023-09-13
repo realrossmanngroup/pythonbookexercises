@@ -1,0 +1,1 @@
+mixer_checkbox.py  is the chapter 9 assignment. However, this makes the program start up with a horrid music clip, and no user chocie to change this to something more palatable! mixer_checkbox_let_user_choose_song_file.py is a variation on chapter 9's program that allows you to choose what file you want to play.
