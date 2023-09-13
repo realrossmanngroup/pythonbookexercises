@@ -1,28 +1,42 @@
 #import GUI
 from tkinter import *
+import tkinter.filedialog as filedialog
+import tkinter as tk
+import tkinter.messagebox
 
 #define variables we will use for functions
-global depot_fieldretrieve
-global address_fieldretrieve
-global item_desc_fieldretrieve
 
 #define function for taking user input, storing it as a variable, then appending it to a file
 def append_record():
-    #Open file we will be saving info to
-    file = open("deliveries.txt", "a")
-    depot_fieldretrieve = depot.get()
-    item_desc_fieldretrieve = item_desc.get()
-    address_fieldretrieve = address.get("1.0",END)
-    file.write("Depot:\n%s\n" % (depot_fieldretrieve))
-    file.write("Item Description:\n%s\n" % (item_desc_fieldretrieve))
-    file.write("Address:\n%s\n" % (address_fieldretrieve))
-
+    try:
+        file = open("deliveries.txt", "a")
+        file.write("Depot:\n%s\n" % (depotlocation.get()))
+        file.write("Item Description:\n%s\n" % (item_desc.get()))
+        file.write("Address:\n%s\n" % (address.get("1.0",END)))
+        depotlocation.set(None)
+    except Exception as ex:
+        #app.title("Can't write to the file %s" % ex)
+        tkinter.messagebox.showerror("Error!", "Can't write to the file \n %s" % ex)
+        
+#define function for getting depots from text file and adding it to our menu
+def read_depots():
+    somefile = filedialog.askopenfilename()
+    depotlist = open(somefile)
+    for line in depotlist:
+        om1['menu'].add_command(label=line.rstrip(), command=tk._setit(depotlocation, line.strip()))
+        
 #define function for clearing fields when done
 def clear_fields():
-    depot.delete(0, END)
+    #clear the variable containing list of depots
+    om1['menu'].delete(0, END)
+    #clear the dropdown menu list of depots
+    depotlocation.set("")
+    #deselect depots
+    depotlocation.set(None)
+    #delete text in fields
     item_desc.delete(0, END)
     address.delete("1.0", END)
-    
+
 #Set up the GUI
 app = Tk()
 app.title("HeadEx shipment manifest")
@@ -33,32 +47,32 @@ screenwidth = app.winfo_screenwidth()
 screenheight = app.winfo_screenheight()
 
 #Create variable that will determine how much the program is scaled, according to screen resolution
-screenwidthforscaling = int(screenwidth/700)
+screenwidthforscaling = screenwidth/1000
 
 #Set size of window based on screen resolution
-programwidth = int(0.5 * int(screenwidth))
-programheight = int(0.5 * int(screenheight))
+programwidth = int(0.32 * int(screenwidth))
+programheight = int(0.45 * int(screenheight))
 
 #Scale the window
 app.tk.call('tk', 'scaling', screenwidthforscaling)
 app.geometry(f"{programwidth}x{programheight}")
 #####DONE WITH SCALING CODE
 
-#define the fields we will use
-####
-####
-####
-#### WHY DOES THIS NOT WORK WHEN I USE .pack(side = 'bottom') AT THE END OF THE LINE? WHY DOES IT ONLY WORK IF I DO b2.pack(side = 'bottom')  ON A NEW LINE?
-b1 = Button(app, text = "Add", width = 10, command = append_record).pack(side = 'bottom')
-b2 = Button(app, text = "Clear", width=10, command = clear_fields).pack(side = 'bottom')
-depotlabel = Label(app, text = "Depot: ").pack(side = 'top')
-#### WHY DOES THIS NOT WORK WHEN I USE .pack() AT THE END OF THE LABEL? WHY DOES IT ONLY WORK WHEN I TYPE depot.pack() ON A NEW LINE?
-depot = Entry(app).pack()
-item_desc_label = Label(app, text = "Item description: ").pack()
+#define the fields we will use, begin loop
+b1 = Button(app, text = "Add", width = 10, command = append_record).pack(side = BOTTOM)
+b2 = Button(app, text = "Clear all", width=10, command = clear_fields).pack(side = BOTTOM)
+b3 = Button(app, text = "Add depots", width=10, command = read_depots).pack(side = BOTTOM)
+depotlabel = Label(app, text = "Depot:")
+depotlabel.pack(side = TOP)
+depotlocation = StringVar()
+depotlocation.set(None)
+om1 = OptionMenu(app, depotlocation, "")
+om1['menu'].delete(0, END)
+om1.pack(side = TOP)
+item_desc_label = Label(app, text = "Item description: ").pack(side = TOP)
 item_desc = Entry(app).pack()
 addresslabel = Label(app, text = "Destination address :").pack()
 address = Text(app).pack()
 
 app.mainloop()
-
 
